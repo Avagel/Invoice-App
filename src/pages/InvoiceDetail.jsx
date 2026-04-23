@@ -71,8 +71,8 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
   console.log(items);
 
   return (
-    <div className="w-full flex flex-col ">
-      <div className="flex-1 min-h-0 overflow-auto">
+    <div className="w-full flex flex-col lg:max-h-screen items-center ">
+      <div className=" w-full max-w-200 flex-1 min-h-0 overflow-y-auto  ">
         <div className="flex-1 flex flex-col gap-6 p-6">
           <button
             className="flex items-center gap-6 my-2 mb-8"
@@ -84,8 +84,8 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
             <p className="bold">Go back</p>
           </button>
 
-          <section className="card flex items-center justify-between text-custom-text-secondary">
-            <div className="flex items-center w-full justify-between md:w-fit md:gap-5">
+          <section className="card flex items-center bg-custom-bg-card justify-between text-custom-text-secondary">
+            <div className="flex items-center w-full justify-between md:w-fit md:gap-5 ">
               <p className="little">Status</p>
               <StatusCard status={status} />
             </div>
@@ -106,7 +106,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
             </div>
           </section>
 
-          <div className="card grid grid-cols-2  gap-7.5 md:grid-cols-4">
+          <div className="card bg-custom-bg-card grid grid-cols-2  gap-7.5 md:grid-cols-4">
             <div className="col-span-2 md:col-span-4  md:flex md:items-start md:justify-between ">
               <p className="little text-custom-text-tertiary font-bold">
                 <span className="text-custom-secondary"># </span>
@@ -142,13 +142,14 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 {receiver?.address}
               </p>
             </div>
+            
 
             <div className="col-span-2 row-start-3 md:row-start-2 md:col-start-3">
               <p className="little text-custom-text-tertiary">Sent to</p>
               <p className="bold mt-3">{receiver?.email}</p>
             </div>
 
-            <div className="col-span-2 row-start-4 md:col-span-4 rounded-lg overflow-hidden bg-custom-tetiary">
+            <div className="col-span-2 row-start-4 md:col-span-4 rounded-lg overflow-hidden bg-custom-tetiary ">
               <div className="p-6 md:hidden flex flex-col gap-6">
                 {items?.map((itm) => {
                   return <ItemCardMobile key={itm.id} data={itm} />;
@@ -168,14 +169,14 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 })}
               </div>
 
-              <div className="p-6 bg-custom-bg-card flex items-center justify-between tb">
+              <div className="p-6 bg-custom-bg-nav flex items-center justify-between tb">
                 <p className="little text-white">Amount Due</p>
                 <h1 className="text-white">£ {total}</h1>
               </div>
             </div>
           </div>
         </div>
-        <footer className="bg-custom-bg-card p-6 flex gap-2 mt-14 shadow-[0px_0px_10px_rgba(72,84,159,0.1)] items-center justify-center md:hidden">
+        <footer className="bg-custom-bg-nav p-6 flex gap-2 mt-14 shadow-[0px_0px_10px_rgba(72,84,159,0.1)] items-center justify-center md:hidden">
           <Button
             type="edit"
             text="Edit"

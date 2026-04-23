@@ -6,7 +6,7 @@ import { Sun, Moon } from "lucide-react";
 const NavBar = () => {
   const { isDark, toggle } = useDarkMode();
   return (
-    <div className="shrink-0 w-full h-18 bg-custom-bg-card flex items-center gap-6 pr-6 lg:flex-col lg:h-full lg:w-18 lg:pr-0 lg:pb-6 sticky lg:left-0 lg:top-0 lg:rounded-r-xl">
+    <div className="shrink-0 w-full h-18 bg-custom-bg-nav flex items-center gap-6 pr-6 lg:flex-col lg:h-full lg:w-18 lg:pr-0 lg:pb-6 sticky lg:left-0 lg:top-0 lg:rounded-r-xl">
       <div className="h-full aspect-square rounded-r-xl bg-custom-accent mr-auto lg:w-full lg:h-auto"></div>
 
       <button onClick={toggle}>

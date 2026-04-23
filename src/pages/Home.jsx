@@ -9,9 +9,9 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   return (
-    <div className=" md:max-w-200 w-full p-6 lg:max-h-screen flex flex-col ">
-      <div className="flex-1 min-h-0  overflow-auto">
-        <header className="flex items-center gap-4 h-11 mt-7 mb-13.75 lg:mt-19.25">
+    <div className="  w-full p-6 lg:max-h-screen flex flex-col  ">
+      <div className="flex-1 min-h-0  overflow-auto   w-full overflow-y-auto  items-center flex flex-col">
+        <header className="flex items-center gap-4 h-11 mt-7 mb-13.75 lg:mt-19.25 w-full md:max-w-200">
           <section className="h-full mr-auto  ">
             <h2 className="leading-none  text-2xl md:text-4xl font-bold">
               Invoices
@@ -43,7 +43,7 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
         </header>
 
         {invoices && invoices.length ? (
-          <div className=" flex flex-col gap-4 overflow-auto">
+          <div className=" flex flex-col gap-4 w-full lg:max-w-200">
             {invoices.map((invoice) => {
               return <InvoiceCard key={invoice.id} data={invoice} />;
             })}
