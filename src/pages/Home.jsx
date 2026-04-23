@@ -47,11 +47,12 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
 
           <div className=" relative  ">
             <button
+              className="hover:text-custom-accent"
               onClick={() => {
                 setFilterOpen((prev) => !prev);
               }}
             >
-              <p className="bold">
+              <p className="bold ">
                 Filter
                 <ChevronDown
                   size={13}

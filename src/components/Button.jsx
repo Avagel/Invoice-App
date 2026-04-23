@@ -20,7 +20,7 @@ const ErrorButton = ({ text, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className="bg-custom-error  shrink-0 py-4 px-7 rounded-full text-white"
+      className="bg-custom-error  shrink-0 py-4 px-7 rounded-full text-white hover:bg-[#FF9797]"
     >
       <p className="bold">{text}</p>
     </button>
@@ -31,7 +31,7 @@ const RegularButton = ({ text, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className="bg-custom-accent  shrink-0 py-4 px-7 rounded-full text-white"
+      className="bg-custom-accent  shrink-0 py-4 px-7 rounded-full text-white hover:bg-[#9277FF]"
     >
       <p className="bold">{text}</p>
     </button>
@@ -42,7 +42,7 @@ const AddButton = ({ text, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className="shrink-0 flex bg-custom-accent h-full  p-1.5 rounded-3xl text-white  items-center pr-3.75 md:w-37.5 text-center"
+      className="shrink-0 flex bg-custom-accent h-full  p-1.5 rounded-3xl text-white  items-center pr-3.75 md:w-37.5 text-center hover:bg-[#9277FF]"
     >
       <div className="shrink-0 w-7 h-7 bg-white rounded-full text-custom-accent flex items-center justify-center font-bold">
         <Plus size={15} />
@@ -59,7 +59,7 @@ const DraftButton = ({ text, onClick }) => {
     <button
       onClick={onClick}
       type="button"
-      className={`bg-[#373B53] shrink-0 py-4 px-7 rounded-full text-custom-text-secondary`}
+      className={`bg-[#373B53] shrink-0 py-4 px-7 rounded-full text-custom-text-secondary hover:bg-[#1E2139]`}
     >
       <p className="bold">{text}</p>
     </button>
@@ -70,7 +70,7 @@ const EditButton = ({ text, full, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className={`bg-custom-tetiary  shrink-0 py-4 px-7 rounded-full text-custom-text-tertiary ${full && "w-full"}`}
+      className={`bg-custom-tetiary  shrink-0 py-4 px-7 rounded-full text-custom-text-tertiary hover:bg-[#DFE3FA] ${full && "w-full"}`}
     >
       <p className="bold">{text}</p>
     </button>

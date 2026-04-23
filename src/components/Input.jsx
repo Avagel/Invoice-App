@@ -1,4 +1,5 @@
-import React from "react";
+import { ChevronDown } from "lucide-react";
+import React, { useState } from "react";
 
 const Input = ({
   type = "input",
@@ -54,12 +55,14 @@ const SelectInput = ({
   options = [],
   defaultValue,
 }) => {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(options[0]);
   return (
-    <div>
+    <div tabIndex={0} className="select font-bold">
       <label htmlFor={name}>
         <p className="text-custom-text-tertiary little">{label}</p>
       </label>
-      <select
+      {/* <select
         id={name}
         name={name}
         defaultValue={defaultValue}
@@ -68,12 +71,42 @@ const SelectInput = ({
         {options.map((item) => {
           console.log(item);
           return (
-            <option className="text-[15px]" value={item}>
+            <option className="appearance-none text-[15px] pt-4 py-6" value={item}>
               {item}
             </option>
           );
         })}
-      </select>
+      </select> */}
+
+      <div className="relative bg-custom-bg-card">
+        <button
+          type="button"
+          onClick={() => setOpen((p) => !p)}
+          className="w-full px-6 py-4 flex items-center justify-between border dark:border-transparent border-custom-border rounded-sm cursor-pointer hover:border-custom-accent text-left text-[15px]"
+        >
+          {selected}
+          <ChevronDown size={15} />
+        </button>
+
+        {open && (
+          <ul className="absolute z-10 w-full mt-1 bg-custom-bg-card border border-custom-bg-card rounded-lg shadow-soft">
+            {options.map((item) => (
+              <li
+                key={item}
+                onClick={() => {
+                  setSelected(item);
+                  setOpen(false);
+                }}
+                className="px-6 border-custom-bg-card py-4 cursor-pointer hover:text-custom-accent 
+                dark:hover:bg-custom-bg-card
+                hover:bg-custom-bg-white text-[15px]"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

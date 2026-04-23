@@ -7,6 +7,7 @@
   --color-custom-bg-card: #f8f8fb;
   --color-custom-bg-white: #e8e8eb;
   --color-custom-accent: #7c5dfa;
+  
   --color-custom-secondary: #888eb0;
   --color-custom-tetiary: #f9fafe;
 
@@ -41,9 +42,6 @@
   --color-custom-text-tertiary: #888eb0;
 }
 
-* {
-  transition: 0.3s all;
-}
 body {
   font-family: "League Spartan", sans-serif;
   color: var(--color-custom-text-dark);
@@ -82,4 +80,16 @@ select {
     0px 20px 40px rgba(0, 0, 0, 0.06);
   padding: 24px;
   border-radius: 8px;
+}
+button {
+  cursor: pointer;
+}
+/* input{
+  border: 0;
+} */
+
+input:focus,
+select:focus {
+  border: 1px solid #7c5dfa;
+  outline: none;
 }

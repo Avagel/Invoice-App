@@ -148,11 +148,11 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
       <form
         ref={formRef}
         onSubmit={(e) => e.preventDefault()}
-        className="max-w-150 bg-custom-bg-white oveflow-hidden rounded-r-xl  oveflow-auto"
+        className="max-w-150 bg-custom-bg-card dark:bg-custom-bg-white oveflow-hidden rounded-r-xl  oveflow-auto"
       >
         <div className="p-6">
           <button
-            className="flex items-center gap-6 my-2 mb-8"
+            className="flex items-center gap-6 my-2 mb-8 hover:text-custom-accent"
             onClick={() => {
               setIsCreateOpen((prev) => !prev);
             }}
@@ -238,7 +238,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               type="select"
               name={"paymentTerms"}
               placeholder={"E3 3EZ"}
-              options={["t", "d", "r"]}
+              options={["Net 1 Day", "Net 14 Day", "Net 30 Day"]}
             />
 
             <Input

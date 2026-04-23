@@ -9,11 +9,11 @@ const NavBar = () => {
     <div className="shrink-0 w-full h-18 dark:bg-custom-bg-card bg-custom-bg-nav flex items-center gap-6 pr-6 lg:flex-col lg:h-full lg:w-18 lg:pr-0 lg:pb-6 sticky lg:left-0 lg:top-0 lg:rounded-r-xl">
       <div className="h-full aspect-square rounded-r-xl bg-custom-accent mr-auto lg:w-full lg:h-auto"></div>
 
-      <button onClick={toggle}>
+      <button onClick={toggle} className="lg:mt-auto">
         {isDark ? (
-          <Sun size={20} className="lg:mt-auto " />
+          <Sun size={20} />
         ) : (
-          <Moon size={20} className="lg:mt-auto text-custom-accent" />
+          <Moon size={20} className=" text-custom-accent" />
         )}
       </button>
 
