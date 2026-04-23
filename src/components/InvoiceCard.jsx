@@ -19,6 +19,7 @@ const InvoiceCard = ({ data }) => {
   return (
     <div
       onClick={handleClick}
+      tabIndex={0}
       className="cursor-pointer hover:border hover:border-custom-accent shrink-0 w-full min-h-0 grid grid-cols-2 justify-between rounded-lg card gap-6 md:gap-0 md:flex md:items-center md:justify-between bg-custom-bg-card"
     >
       <p className="bold md:mr-7">

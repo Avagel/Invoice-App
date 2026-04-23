@@ -108,12 +108,16 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
 
           <div className="card bg-custom-bg-card grid grid-cols-2  gap-7.5 md:grid-cols-4">
             <div className="col-span-2 md:col-span-4  md:flex md:items-start md:justify-between ">
-              <p className="little text-custom-text-tertiary font-bold">
-                <span className="text-custom-secondary"># </span>
-                {id}
-                <br />
-                {invoiceName}
-              </p>
+              <div className="flex flex-col gap-2">
+                <p className="bold">
+                  <span className="text-custom-secondary"># </span>
+                  {id}
+                </p>
+                <p className="text-custom-secondary little leading-0">
+                  <br />
+                  {invoiceName}
+                </p>
+              </div>
 
               <div className="mt-7.5 md:mt-0">{""}</div>
             </div>
@@ -142,7 +146,6 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 {receiver?.address}
               </p>
             </div>
-            
 
             <div className="col-span-2 row-start-3 md:row-start-2 md:col-start-3">
               <p className="little text-custom-text-tertiary">Sent to</p>

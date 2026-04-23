@@ -146,6 +146,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
   return (
     <div className="absolute h-full  rounded-r-xl w-inherit inset-0  bg-zinc-950/50 overflow-auto z-3">
       <form
+        autoFocus
         ref={formRef}
         onSubmit={(e) => e.preventDefault()}
         className="max-w-150 bg-custom-bg-card dark:bg-custom-bg-white oveflow-hidden rounded-r-xl  oveflow-auto"
@@ -168,6 +169,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               label={"Street Address"}
               name={"fromAddress"}
               placeholder={"Enter Street Address"}
+              focus={true}
             />
 
             <div className="flex  justify-between gap-6">

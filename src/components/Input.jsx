@@ -8,6 +8,7 @@ const Input = ({
   name,
   options,
   defaultValue,
+  focus,
 }) => {
   if (type == "number")
     return (
@@ -44,6 +45,7 @@ const Input = ({
       placeholder={placeholder}
       name={name}
       defaultValue={defaultValue}
+      focus={focus}
     />
   );
 };
@@ -127,13 +129,20 @@ const DateInput = ({ label, placeholder = "", name, defaultValue }) => {
     </div>
   );
 };
-const TextInput = ({ label, placeholder = "", name, defaultValue = "" }) => {
+const TextInput = ({
+  label,
+  placeholder = "",
+  name,
+  defaultValue = "",
+  focus = false,
+}) => {
   return (
     <div>
       <label htmlFor={name}>
         <p className="text-custom-text-tertiary little">{label}</p>
       </label>
       <input
+        autoFocus={focus}
         id={name}
         name={name}
         type="text"

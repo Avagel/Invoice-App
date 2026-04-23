@@ -129,6 +129,7 @@ const EditInvoice = ({
               name={"fromAddress"}
               defaultValue={sender.street}
               type="text"
+              focus={true}
               placeholder={"Enter Street Address"}
             />
 
