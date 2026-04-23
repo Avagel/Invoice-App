@@ -36,6 +36,29 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
     setDeleteModal(false);
     navigate("/");
   };
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+  const formatTimeLeft = (date) => {
+    const now = new Date();
+    const due = new Date(date);
+    const diff = due - now;
+
+    if (diff <= 0) return "Overdue";
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    if (days > 0) return `${days} day${days === 1 ? "" : "s"} left`;
+    if (hours > 0) return `${hours} hour${hours === 1 ? "" : "s"} left`;
+    if (minutes > 0) return `${minutes} minute${minutes === 1 ? "" : "s"} left`;
+    return "Due now";
+  };
 
   const handleMark = (status) => {
     setInvoices((prev) => {
@@ -155,7 +178,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
           </section>
 
           <div className="card bg-custom-bg-card grid grid-cols-2  gap-7.5 md:grid-cols-4">
-            <div className="col-span-2 md:col-span-4  md:flex md:items-start md:justify-between ">
+            <div className="col-span-2 md:col-span-4  md:flex md:items-start md:justify-between flex flex-col gap-7.5 ">
               <div className="flex flex-col gap-2">
                 <p className="bold">
                   <span className="text-custom-secondary"># </span>
@@ -167,7 +190,16 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 </p>
               </div>
 
-              <div className="mt-7.5 md:mt-0">{""}</div>
+              <div className="md:mt-0 l">
+                <p className="text-custom-secondary little">{sender?.street}</p>
+                <p className="text-custom-secondary little">{sender?.city}</p>
+                <p className="text-custom-secondary little">
+                  {sender?.postCode}
+                </p>
+                <p className="text-custom-secondary little">
+                  {sender?.country}
+                </p>
+              </div>
             </div>
 
             <div>
@@ -176,13 +208,13 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                   <p className="little text-custom-text-tertiary">
                     Invoice Date
                   </p>
-                  <p className="bold mt-3">30 Aug 3030</p>
+                  <p className="bold mt-3">{formatDate(date)}</p>
                 </div>
                 <div>
                   <p className="little text-custom-text-tertiary">
                     Payment Due
                   </p>
-                  <p className="bold mt-3">3{date}</p>
+                  <p className="bold mt-3">{formatTimeLeft(date)}</p>
                 </div>
               </div>
             </div>

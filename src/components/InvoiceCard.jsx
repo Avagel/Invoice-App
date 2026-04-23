@@ -15,6 +15,13 @@ const InvoiceCard = ({ data }) => {
   const handleClick = () => {
     navigate("/detail/" + id, { state: data });
   };
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
     <div
@@ -27,7 +34,7 @@ const InvoiceCard = ({ data }) => {
         {id}
       </p>
       <p className="little text-custom-text-primary row-start-2 col-start-1 md:mr-12.75 ">
-        Due {date}
+        Due {formatDate(date)}
       </p>
       <p className="little line-clamp-1 text-custom-text-secondary ml-auto md:ml-0 md:mr-20.5 ellipsis ">
         {receiver.name}
