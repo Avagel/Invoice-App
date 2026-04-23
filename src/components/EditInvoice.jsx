@@ -56,12 +56,8 @@ const EditInvoice = ({
     };
     let items = [];
     const listItems = itemsRef.current.querySelectorAll(".listItem");
-    console.log(listItems);
 
     listItems.forEach((itm, index) => {
-      console.log(formRef.current.elements["itmName"]);
-      console.log(formRef.current.elements["itmName"].value);
-
       const name = formRef.current.elements["itmName"][index]
         ? formRef.current.elements["itmName"][index].value
         : formRef.current.elements["itmName"].value;
@@ -72,6 +68,7 @@ const EditInvoice = ({
         ? formRef.current.elements["itmPrice"][index].value
         : formRef.current.elements["itmPrice"].value;
       items.push({
+        id: crypto.randomUUID(),
         name,
         quantity,
         price,

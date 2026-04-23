@@ -7,7 +7,6 @@ import CreateInvoice from "../components/CreateInvoice";
 import Button from "../components/Button";
 const Home = ({ invoices, setInvoices, updateLocal }) => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  console.log(invoices);
 
   return (
     <div className=" md:max-w-200 w-full p-6 lg:max-h-screen flex flex-col ">
@@ -46,7 +45,7 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
         {invoices && invoices.length ? (
           <div className=" flex flex-col gap-4 overflow-auto">
             {invoices.map((invoice) => {
-              return <InvoiceCard data={invoice} />;
+              return <InvoiceCard key={invoice.id} data={invoice} />;
             })}
           </div>
         ) : (

@@ -16,8 +16,6 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
   const [data, setData] = useState(location.state);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  console.log(invoices.find((invoice) => invoice.id == params.id));
-
   useEffect(() => {
     if (location.state && location.state.length) {
     } else {
@@ -27,8 +25,6 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
       setData(invoices.find((invoice) => invoice.id == params.id));
     }
   }, [invoices]);
-
-  console.log("data", data);
 
   const handleDelete = () => {
     setInvoices((prev) => {
@@ -41,7 +37,6 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
   };
 
   const handleMarkPaid = () => {
-    console.log("meee");
     setInvoices((prev) => {
       const invoi = prev.filter((inv) => inv.id == data.id);
       // setData((prev) => {
@@ -50,7 +45,6 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
       //     status: "paid",
       //   };
       // });
-      console.log(invoi);
       invoi[0].status = "paid";
       const updated = [
         ...prev,
@@ -74,6 +68,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
     items,
     total,
   } = data || {};
+  console.log(items);
 
   return (
     <div className="w-full flex flex-col ">
@@ -156,7 +151,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
             <div className="col-span-2 row-start-4 md:col-span-4 rounded-lg overflow-hidden bg-custom-tetiary">
               <div className="p-6 md:hidden flex flex-col gap-6">
                 {items?.map((itm) => {
-                  return <ItemCardMobile data={itm} />;
+                  return <ItemCardMobile key={itm.id} data={itm} />;
                 })}
               </div>
 
@@ -167,8 +162,9 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 <p className="little text-custom-text-tertiary">QTY.</p>
                 <p className="little text-custom-text-tertiary">Price</p>
                 <p className="little text-custom-text-tertiary">Total</p>
-                {items?.map((item) => {
-                  return <ItemCard data={item} />;
+                {items?.map((itm) => {
+                  console.log(itm);
+                  return <ItemCard key={itm.id} data={itm} />;
                 })}
               </div>
 
@@ -207,7 +203,6 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
 };
 
 const ItemCardMobile = ({ data }) => {
-  console.log(data);
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -221,7 +216,6 @@ const ItemCardMobile = ({ data }) => {
   );
 };
 const ItemCard = ({ data }) => {
-  console.log(data);
   return (
     <>
       <p className="bold text-left">{data.name}</p>

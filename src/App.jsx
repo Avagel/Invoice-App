@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
-  
+
   // const invoi = [
   //   {
   //     id: "INV-001",
@@ -815,15 +815,12 @@ function App() {
   // const _invoices = localStorage.setItem("invoices", JSON.stringify(invoic));
 
   const updateLocal = () => {
-    console.log("jimmmy");
     localStorage.setItem("invoices", JSON.stringify(invoices));
   };
 
   useEffect(() => {
     const _invoices = JSON.parse(localStorage.getItem("invoices"));
     setInvoices(_invoices);
-    console.log("iruooooooooo");
-    
   }, []);
 
   return (
