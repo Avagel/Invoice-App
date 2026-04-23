@@ -12,6 +12,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
   // const [invoices, setInvoices] = useState(
   //   JSON.parse(localStorage.getItem("invoices")),
   // );
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const [data, setData] = useState(location.state);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -32,7 +33,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
       localStorage.setItem("invoices", JSON.stringify(updated));
       return updated;
     });
-    alert("deleted" + data.invoiceName);
+    setDeleteModal(false);
     navigate("/");
   };
 
@@ -126,7 +127,13 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                   setIsEditOpen((prev) => !prev);
                 }}
               />
-              <Button type="error" text="Delete" onClick={handleDelete} />
+              <Button
+                type="error"
+                text="Delete"
+                onClick={() => {
+                  setDeleteModal(true);
+                }}
+              />
               {status == "paid" ? (
                 <Button
                   type="regular"
@@ -228,7 +235,13 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
               setIsEditOpen((prev) => !prev);
             }}
           />
-          <Button type="error" text="Delete" onClick={handleDelete} />
+          <Button
+            type="error"
+            text="Delete"
+            onClick={() => {
+              setDeleteModal(true);
+            }}
+          />
           {status == "paid" ? (
             <Button
               type="regular"
@@ -257,6 +270,28 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
             setInvoices={setInvoices}
             updateLocal={updateLocal}
           />
+        </div>
+      )}
+
+      {deleteModal && (
+        <div className="absolute w-full h-full bg-zinc-950/60 flex items-center justify-center p-6">
+          <div className="p-8 rounded-lg bg-custom-bg-white w-full max-w-120 ">
+            <h1>Confirm Deletion</h1>
+            <p className="litte leading-5.5 mt-2 mb-5 text-custom-text-tertiary">
+              Are you sure you want to delete invoice #XM9141? This action
+              cannot be undone.
+            </p>
+            <div className="flex w-full gap-2 justify-end ">
+              <Button
+                type="edit"
+                text={"Cancel"}
+                onClick={() => {
+                  setDeleteModal(false);
+                }}
+              />
+              <Button type="error" text={"Delete"} onClick={handleDelete} />
+            </div>
+          </div>
         </div>
       )}
     </div>
