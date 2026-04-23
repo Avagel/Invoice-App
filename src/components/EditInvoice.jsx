@@ -10,6 +10,7 @@ const EditInvoice = ({
   setInvoices,
   updateLocal,
 }) => {
+  const [errors, setErrors] = useState({});
   const [baseData, setBaseData] = useState(defaultValues);
   const [_items, setItems] = useState(defaultValues.items);
   console.log(_items);
@@ -35,25 +36,56 @@ const EditInvoice = ({
     });
   };
 
+  const validate = (_items) => {
+    const f = formRef.current;
+    const newErrors = {};
+
+    // Bill From
+    if (!f.fromAddress.value.trim())
+      newErrors.fromAddress = "Street address is required";
+    if (!f.fromCity.value.trim()) newErrors.fromCity = "City is required";
+    if (!f.fromPostCode.value.trim())
+      newErrors.fromPostCode = "Post code is required";
+    if (!f.fromCountry.value.trim())
+      newErrors.fromCountry = "Country is required";
+
+    // Bill To
+    if (!f.toName.value.trim()) newErrors.toName = "Client name is required";
+    if (!f.toEmail.value.trim()) newErrors.toEmail = "Client email is required";
+    else if (!/\S+@\S+\.\S+/.test(f.toEmail.value))
+      newErrors.toEmail = "Invalid email address";
+    if (!f.toAddress.value.trim())
+      newErrors.toAddress = "Street address is required";
+    if (!f.toCity.value.trim()) newErrors.toCity = "City is required";
+    if (!f.toPostCode.value.trim())
+      newErrors.toPostCode = "Post code is required";
+    if (!f.toCountry.value.trim()) newErrors.toCountry = "Country is required";
+
+    // Invoice details
+    if (!f.invoiceDate.value || f.invoiceDate.value.trim() == "")
+      newErrors.invoiceDate = "Invoice date is required";
+    if (!f.paymentTerms.value)
+      newErrors.paymentTerms = "Payment terms are required";
+    if (!f.projectDescription.value.trim())
+      newErrors.projectDescription = "Project description is required";
+
+    // Items
+    if (_items.length === 0) {
+      newErrors.items = "Add at least one item";
+    } else {
+      _items.forEach((itm, index) => {
+        if (!itm.name?.trim())
+          newErrors[`item_${index}_name`] = "Item name is required";
+        if (!itm.quantity || itm.quantity <= 0)
+          newErrors[`item_${index}_quantity`] = "Invalid quantity";
+        if (!itm.price || itm.price <= 0)
+          newErrors[`item_${index}_price`] = "Invalid price";
+      });
+    }
+
+    return newErrors;
+  };
   const handleEdit = () => {
-    const date = formRef.current.invoiceDate.value;
-    const paymentTerms = formRef.current.paymentTerms.value;
-    const invoiceName = formRef.current.projectDescription.value;
-    const projectDescription = formRef.current.projectDescription.value;
-    const sender = {
-      street: formRef.current.fromAddress.value,
-      city: formRef.current.fromCity.value,
-      postCode: formRef.current.fromPostCode.value,
-      country: formRef.current.fromCountry.value,
-    };
-    const receiver = {
-      name: formRef.current.toName.value,
-      email: formRef.current.toEmail.value,
-      street: formRef.current.toAddress.value,
-      city: formRef.current.toCity.value,
-      postCode: formRef.current.toPostCode.value,
-      country: formRef.current.toCountry.value,
-    };
     let items = [];
     const listItems = itemsRef.current.querySelectorAll(".listItem");
 
@@ -74,6 +106,32 @@ const EditInvoice = ({
         price,
       });
     });
+
+    const newErrors = validate(items);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // stop submission
+    }
+    setErrors({});
+
+    const date = formRef.current.invoiceDate.value;
+    const paymentTerms = formRef.current.paymentTerms.value;
+    const invoiceName = formRef.current.projectDescription.value;
+    const projectDescription = formRef.current.projectDescription.value;
+    const sender = {
+      street: formRef.current.fromAddress.value,
+      city: formRef.current.fromCity.value,
+      postCode: formRef.current.fromPostCode.value,
+      country: formRef.current.fromCountry.value,
+    };
+    const receiver = {
+      name: formRef.current.toName.value,
+      email: formRef.current.toEmail.value,
+      street: formRef.current.toAddress.value,
+      city: formRef.current.toCity.value,
+      postCode: formRef.current.toPostCode.value,
+      country: formRef.current.toCountry.value,
+    };
 
     const editedInvoice = {
       id: id,
@@ -131,6 +189,7 @@ const EditInvoice = ({
               type="text"
               focus={true}
               placeholder={"Enter Street Address"}
+              error={errors?.fromAddress}
             />
 
             <div className="flex  justify-between gap-6">
@@ -140,6 +199,7 @@ const EditInvoice = ({
                 type="text"
                 placeholder={"London"}
                 defaultValue={sender.city}
+                error={errors?.fromCity}
               />
               <Input
                 label={"Post Code"}
@@ -147,6 +207,7 @@ const EditInvoice = ({
                 name={"fromPostCode"}
                 placeholder={"E3 3EZ"}
                 defaultValue={sender.postCode}
+                error={errors?.fromPostCode}
               />
             </div>
             <Input
@@ -155,6 +216,7 @@ const EditInvoice = ({
               defaultValue={sender.country}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.fromCountry}
             />
 
             <p className="text-custom-accent">Bill To</p>
@@ -164,6 +226,7 @@ const EditInvoice = ({
               defaultValue={receiver.name}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.toName}
             />
             <Input
               label={"Client's Email"}
@@ -171,6 +234,7 @@ const EditInvoice = ({
               defaultValue={receiver.email}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.toEmail}
             />
             <Input
               label={"Street Address"}
@@ -178,6 +242,7 @@ const EditInvoice = ({
               defaultValue={receiver.street}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.toAddress}
             />
 
             <div className="flex  justify-between gap-6">
@@ -187,6 +252,7 @@ const EditInvoice = ({
                 placeholder={"London"}
                 name={"toCity"}
                 defaultValue={receiver.city}
+                error={errors?.toCity}
               />
               <Input
                 label={"Post Code"}
@@ -194,6 +260,7 @@ const EditInvoice = ({
                 placeholder={"E3 3EZ"}
                 name={"toPostCode"}
                 defaultValue={receiver.postCode}
+                error={errors?.toPostCode}
               />
             </div>
             <Input
@@ -202,12 +269,14 @@ const EditInvoice = ({
               placeholder={"E3 3EZ"}
               name={"toCountry"}
               defaultValue={receiver.country}
+              error={errors?.toCountry}
             />
 
             <Input
               label={"Invoice Date"}
               type="date"
               name={"invoiceDate"}
+              error={errors?.invoiceDate}
               defaultValue={date}
             />
             <Input
@@ -216,7 +285,8 @@ const EditInvoice = ({
               defaultValue={paymentTerms}
               type="select"
               placeholder={"E3 3EZ"}
-              options={["t", "d", "r"]}
+              options={["Next 1 Day", "Next 14 Day", "Next 30 Day"]}
+              error={errors?.paymentTerms}
             />
 
             <Input
@@ -225,6 +295,7 @@ const EditInvoice = ({
               name={"projectDescription"}
               defaultValue={projectDescription}
               placeholder={"Graphics Design"}
+              error={errors?.projectDescription}
             />
             <h2 className="text-custom-text-secondary text-[18px] font-bold mt-17.25">
               Item List

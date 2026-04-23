@@ -9,6 +9,7 @@ const Input = ({
   options,
   defaultValue,
   focus,
+  error,
 }) => {
   if (type == "number")
     return (
@@ -17,6 +18,7 @@ const Input = ({
         placeholder={placeholder}
         name={name}
         defaultValue={defaultValue}
+        error={error}
       />
     );
   if (type == "date")
@@ -26,6 +28,7 @@ const Input = ({
         placeholder={placeholder}
         name={name}
         defaultValue={defaultValue}
+        error={error}
       />
     );
   if (type == "select")
@@ -46,6 +49,7 @@ const Input = ({
       name={name}
       defaultValue={defaultValue}
       focus={focus}
+      error={error}
     />
   );
 };
@@ -64,21 +68,7 @@ const SelectInput = ({
       <label htmlFor={name}>
         <p className="text-custom-text-tertiary little">{label}</p>
       </label>
-      {/* <select
-        id={name}
-        name={name}
-        defaultValue={defaultValue}
-        className="bg-custom-tetiary font-bold text-[15px] border text-custom-text-dark border-custom-border px-5 py-4 w-full rounded-sm mt-2 "
-      >
-        {options.map((item) => {
-          console.log(item);
-          return (
-            <option className="appearance-none text-[15px] pt-4 py-6" value={item}>
-              {item}
-            </option>
-          );
-        })}
-      </select> */}
+      <input type="hidden" name="paymentTerms" value={selected} />
 
       <div className="relative bg-custom-bg-card">
         <button
@@ -112,11 +102,21 @@ const SelectInput = ({
     </div>
   );
 };
-const DateInput = ({ label, placeholder = "", name, defaultValue }) => {
+
+const DateInput = ({
+  label,
+  placeholder = "",
+  name,
+  defaultValue,
+  error = "",
+}) => {
   return (
     <div>
-      <label htmlFor={name}>
-        <p className="text-custom-text-tertiary little">{label}</p>
+      <label htmlFor={name} className="flex w-full justify-between">
+        <p className="little text-custom-text-tertiary little">{label}</p>
+        {error && (
+          <p className="text-custom-error right-0">{error.toLowerCase()} </p>
+        )}
       </label>
       <input
         defaultValue={defaultValue}
@@ -124,22 +124,27 @@ const DateInput = ({ label, placeholder = "", name, defaultValue }) => {
         name={name}
         type="date"
         placeholder={placeholder}
-        className="bg-custom-tetiary font-bold text-[15px] border text-custom-text-dark border-custom-border px-5 py-4 w-full rounded-sm mt-2 "
+        className={`bg-custom-tetiary font-bold text-[15px] border text-custom-text-dark  px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border dark:border-0"}`}
       />
     </div>
   );
 };
+
 const TextInput = ({
   label,
   placeholder = "",
   name,
   defaultValue = "",
   focus = false,
+  error = "",
 }) => {
   return (
-    <div>
-      <label htmlFor={name}>
-        <p className="text-custom-text-tertiary little">{label}</p>
+    <div className="">
+      <label htmlFor={name} className="flex w-full justify-between">
+        <p className="little text-custom-text-tertiary little">{label}</p>
+        {error && (
+          <p className="text-custom-error right-0">{error.toLowerCase()} </p>
+        )}
       </label>
       <input
         autoFocus={focus}
@@ -148,12 +153,19 @@ const TextInput = ({
         type="text"
         defaultValue={defaultValue}
         placeholder={placeholder}
-        className=" bg-custom-tetiary font-bold text-[15px] border border-custom-border px-5 py-4 w-full rounded-sm mt-2 "
+        className={`bg-custom-tetiary placeholder-custom-text-primary font-bold text-[15px] border  px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border dark:border-0"}`}
       />
     </div>
   );
 };
-const NumberInput = ({ label, placeholder = "", name, defaultValue }) => {
+
+const NumberInput = ({
+  label,
+  placeholder = "",
+  name,
+  defaultValue,
+  error = "",
+}) => {
   return (
     <div>
       <label htmlFor={name}>
@@ -165,7 +177,7 @@ const NumberInput = ({ label, placeholder = "", name, defaultValue }) => {
         defaultValue={defaultValue}
         type="number"
         placeholder={placeholder}
-        className="bg-custom-tetiary font-bold text-[15px] border border-custom-border px-5 py-4 w-full rounded-sm mt-2 "
+        className={`bg-custom-tetiary font-bold text-[15px] border px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border dark:border-0"}`}
       />
     </div>
   );

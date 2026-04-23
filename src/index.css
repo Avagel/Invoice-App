@@ -7,7 +7,7 @@
   --color-custom-bg-card: #f8f8fb;
   --color-custom-bg-white: #e8e8eb;
   --color-custom-accent: #7c5dfa;
-  
+
   --color-custom-secondary: #888eb0;
   --color-custom-tetiary: #f9fafe;
 
@@ -62,10 +62,7 @@ p.bold {
   font-size: 15px;
   font-weight: 700;
 }
-.dark input,
-select {
-  border: 0;
-}
+
 .dark .tb {
   background-color: #0c0e16;
 }

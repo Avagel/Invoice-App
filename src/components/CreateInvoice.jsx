@@ -9,21 +9,6 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
   const [errors, setErrors] = useState({});
 
   const handleSubmit = (status) => {
-    // skip validation for drafts
-    if (status !== "draft") {
-      const newErrors = validate();
-      if (Object.keys(newErrors).length > 0) {
-        console.log("error");
-        setErrors(newErrors);
-        return; // stop submission
-      }
-    }
-    setErrors({});
-    const id = crypto.randomUUID();
-    const date = formRef.current.toInvoiceDate.value;
-    const paymentTerms = formRef.current.paymentTerms.value;
-    const invoiceName = formRef.current.projectDescription.value;
-    const projectDescription = formRef.current.projectDescription.value;
     let items = [];
     const listItems = itemsRef.current.querySelectorAll(".listItem");
     listItems.forEach((itm, index) => {
@@ -43,6 +28,22 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
         price,
       });
     });
+    // skip validation for drafts
+
+    if (status !== "draft") {
+      const newErrors = validate(items);
+      if (Object.keys(newErrors).length > 0) {
+        console.log("error", errors);
+        setErrors(newErrors);
+        return; // stop submission
+      }
+    }
+    setErrors({});
+    const id = crypto.randomUUID();
+    const date = formRef.current.toInvoiceDate.value;
+    const paymentTerms = formRef.current.paymentTerms.value;
+    const invoiceName = formRef.current.projectDescription.value;
+    const projectDescription = formRef.current.projectDescription.value;
 
     const sender = {
       street: formRef.current.fromAddress.value,
@@ -80,12 +81,11 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
 
     alert("added");
     setIsCreateOpen(false);
-
-    formRef.current.preventDefault();
   };
 
-  const validate = () => {
+  const validate = (_items) => {
     const f = formRef.current;
+    console.log(f.toInvoiceDate.value);
     const newErrors = {};
 
     // Bill From
@@ -110,7 +110,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
     if (!f.toCountry.value.trim()) newErrors.toCountry = "Country is required";
 
     // Invoice details
-    if (!f.toInvoiceDate.value)
+    if (!f.toInvoiceDate.value || f.toInvoiceDate.value.trim() == "")
       newErrors.toInvoiceDate = "Invoice date is required";
     if (!f.paymentTerms.value)
       newErrors.paymentTerms = "Payment terms are required";
@@ -170,6 +170,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               name={"fromAddress"}
               placeholder={"Enter Street Address"}
               focus={true}
+              error={errors?.fromAddress}
             />
 
             <div className="flex  justify-between gap-6">
@@ -178,12 +179,14 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
                 name={"fromCity"}
                 type="text"
                 placeholder={"London"}
+                error={errors?.fromCity}
               />
               <Input
                 label={"Post Code"}
                 name={"fromPostCode"}
                 type="text"
                 placeholder={"E3 3EZ"}
+                error={errors?.fromPostCode}
               />
             </div>
             <Input
@@ -191,6 +194,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               name={"fromCountry"}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.fromCountry}
             />
 
             <p className="text-custom-accent">Bill To</p>
@@ -199,18 +203,21 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               name={"toName"}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.toName}
             />
             <Input
               label={"Client's Email"}
               name={"toEmail"}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.toEmail}
             />
             <Input
               label={"Street Address"}
               name={"toAddress"}
               type="text"
               placeholder={"E3 3EZ"}
+              error={errors?.toAddress}
             />
 
             <div className="flex  justify-between gap-6">
@@ -219,12 +226,14 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
                 type="text"
                 name={"toCity"}
                 placeholder={"London"}
+                error={errors?.toCity}
               />
               <Input
                 label={"Post Code"}
                 type="text"
                 name={"toPostCode"}
                 placeholder={"E3 3EZ"}
+                error={errors?.toPostCode}
               />
             </div>
             <Input
@@ -232,20 +241,28 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               type="text"
               name={"toCountry"}
               placeholder={"E3 3EZ"}
+              error={errors?.toCountry}
             />
 
-            <Input label={"Invoice Date"} type="date" name={"toInvoiceDate"} />
+            <Input
+              label={"Invoice Date"}
+              type="date"
+              name={"toInvoiceDate"}
+              error={errors?.toInvoiceDate}
+            />
             <Input
               label={"Payment Terms"}
               type="select"
               name={"paymentTerms"}
               placeholder={"E3 3EZ"}
-              options={["Net 1 Day", "Net 14 Day", "Net 30 Day"]}
+              options={["Next 1 Day", "Next 14 Day", "Next 30 Day"]}
+              error={errors?.paymentTerms}
             />
 
             <Input
               label={"Project Description"}
               name={"projectDescription"}
+              error={errors?.projectDescription}
               type="text"
               placeholder={"Graphics Design"}
             />
@@ -255,12 +272,14 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
             Item List
           </h2>
           <div ref={itemsRef} className="flex flex-col mt-5.5 gap-12.25 mb-12">
-            {_items.map((itm) => {
+            {_items.map((itm, index) => {
               return (
                 <ListItem key={itm.id} setItems={setItems} defaultValue={itm} />
               );
             })}
           </div>
+
+          <p className="little list-item text-custom-error">{errors.items}</p>
 
           <Button
             type="edit"

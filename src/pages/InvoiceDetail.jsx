@@ -36,7 +36,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
     navigate("/");
   };
 
-  const handleMarkPaid = () => {
+  const handleMark = (status) => {
     setInvoices((prev) => {
       const invoi = prev.filter((inv) => inv.id == data.id);
       // setData((prev) => {
@@ -45,7 +45,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
       //     status: "paid",
       //   };
       // });
-      invoi[0].status = "paid";
+      invoi[0].status = status;
       const updated = [
         ...prev,
         {
@@ -56,6 +56,26 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
       return updated;
     });
   };
+  // const handleMarkPaid = () => {
+  //   setInvoices((prev) => {
+  //     const invoi = prev.filter((inv) => inv.id == data.id);
+  //     // setData((prev) => {
+  //     //   return {
+  //     //     ...prev,
+  //     //     status: "paid",
+  //     //   };
+  //     // });
+  //     invoi[0].status = "paid";
+  //     const updated = [
+  //       ...prev,
+  //       {
+  //         ...invoi[0],
+  //       },
+  //     ];
+  //     localStorage.setItem("invoices", JSON.stringify(updated));
+  //     return updated;
+  //   });
+  // };
 
   const {
     id,
@@ -98,11 +118,23 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 }}
               />
               <Button type="error" text="Delete" onClick={handleDelete} />
-              <Button
-                type="regular"
-                text="Mark as Paid"
-                onClick={handleMarkPaid}
-              />
+              {status == "paid" ? (
+                <Button
+                  type="regular"
+                  text="Mark as Pending"
+                  onClick={() => {
+                    handleMark("pending");
+                  }}
+                />
+              ) : (
+                <Button
+                  type="regular"
+                  text="Mark as Paid"
+                  onClick={() => {
+                    handleMark("paid");
+                  }}
+                />
+              )}
             </div>
           </section>
 
@@ -188,7 +220,23 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
             }}
           />
           <Button type="error" text="Delete" onClick={handleDelete} />
-          <Button type="regular" text="Mark as Paid" onClick={handleMarkPaid} />
+          {status == "paid" ? (
+            <Button
+              type="regular"
+              text="Mark as Pending"
+              onClick={() => {
+                handleMark("pending");
+              }}
+            />
+          ) : (
+            <Button
+              type="regular"
+              text="Mark as Paid"
+              onClick={() => {
+                handleMark("paid");
+              }}
+            />
+          )}
         </footer>
       </div>
 
