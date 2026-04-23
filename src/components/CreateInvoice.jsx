@@ -6,7 +6,19 @@ import Button from "./Button";
 
 const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
   const formRef = useRef(null);
+  const [errors, setErrors] = useState({});
+
   const handleSubmit = (status) => {
+    // skip validation for drafts
+    if (status !== "draft") {
+      const newErrors = validate();
+      if (Object.keys(newErrors).length > 0) {
+        console.log("error");
+        setErrors(newErrors);
+        return; // stop submission
+      }
+    }
+    setErrors({});
     const id = crypto.randomUUID();
     const date = formRef.current.toInvoiceDate.value;
     const paymentTerms = formRef.current.paymentTerms.value;
@@ -72,7 +84,55 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
     formRef.current.preventDefault();
   };
 
-  
+  const validate = () => {
+    const f = formRef.current;
+    const newErrors = {};
+
+    // Bill From
+    if (!f.fromAddress.value.trim())
+      newErrors.fromAddress = "Street address is required";
+    if (!f.fromCity.value.trim()) newErrors.fromCity = "City is required";
+    if (!f.fromPostCode.value.trim())
+      newErrors.fromPostCode = "Post code is required";
+    if (!f.fromCountry.value.trim())
+      newErrors.fromCountry = "Country is required";
+
+    // Bill To
+    if (!f.toName.value.trim()) newErrors.toName = "Client name is required";
+    if (!f.toEmail.value.trim()) newErrors.toEmail = "Client email is required";
+    else if (!/\S+@\S+\.\S+/.test(f.toEmail.value))
+      newErrors.toEmail = "Invalid email address";
+    if (!f.toAddress.value.trim())
+      newErrors.toAddress = "Street address is required";
+    if (!f.toCity.value.trim()) newErrors.toCity = "City is required";
+    if (!f.toPostCode.value.trim())
+      newErrors.toPostCode = "Post code is required";
+    if (!f.toCountry.value.trim()) newErrors.toCountry = "Country is required";
+
+    // Invoice details
+    if (!f.toInvoiceDate.value)
+      newErrors.toInvoiceDate = "Invoice date is required";
+    if (!f.paymentTerms.value)
+      newErrors.paymentTerms = "Payment terms are required";
+    if (!f.projectDescription.value.trim())
+      newErrors.projectDescription = "Project description is required";
+
+    // Items
+    if (_items.length === 0) {
+      newErrors.items = "Add at least one item";
+    } else {
+      _items.forEach((itm, index) => {
+        if (!itm.name?.trim())
+          newErrors[`item_${index}_name`] = "Item name is required";
+        if (!itm.quantity || itm.quantity <= 0)
+          newErrors[`item_${index}_quantity`] = "Invalid quantity";
+        if (!itm.price || itm.price <= 0)
+          newErrors[`item_${index}_price`] = "Invalid price";
+      });
+    }
+
+    return newErrors;
+  };
 
   const [_items, setItems] = useState([{ id: 0 }]);
   const itemsRef = useRef();
@@ -207,6 +267,12 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
             onClick={handleCreateItems}
           />
         </div>
+
+        {/* {Object.keys(errors).length > 0 && (
+          <p className="text-custom-error text-center">
+            {errors}
+          </p>
+        )} */}
 
         <footer className="p-6 flex gap-2 mt-14 shadow-[0px_0px_10px_rgba(72,84,159,0.1)] items-center justify-center bg-custom-bg-card md:bg-custom-bg-white sticky bottom-0">
           <div className="md:mr-auto">
