@@ -42,6 +42,9 @@
   --color-custom-text-tertiary: #888eb0;
 }
 
+*::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
 body {
   font-family: "League Spartan", sans-serif;
   color: var(--color-custom-text-dark);
