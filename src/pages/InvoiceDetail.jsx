@@ -112,16 +112,16 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
     items,
     // total,
   } = data || {};
-  console.log(items);
+  
 
   let total = 0;
   {
     items?.forEach((itm) => {
-      console.log("itms", itm);
+      
       total = total + itm.quantity * itm.price;
     });
   }
-  console.log(total);
+  
 
   return (
     <div className="w-full flex flex-col lg:max-h-screen items-center ">
@@ -233,7 +233,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
             </div>
 
             <div className="col-span-2 row-start-4 md:col-span-4 rounded-lg overflow-hidden bg-custom-tetiary ">
-              <div className="p-6 md:hidden flex flex-col gap-6">
+              <div className="p-6 md:hidden flex flex-col gap-6 bg-gray-100 dark:bg-[#252945]">
                 {items?.map((itm) => {
                   return <ItemCardMobile key={itm.id} data={itm} />;
                 })}
@@ -247,7 +247,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
                 <p className="little text-custom-text-tertiary">Price</p>
                 <p className="little text-custom-text-tertiary">Total</p>
                 {items?.map((itm) => {
-                  console.log(itm);
+                  
                   return <ItemCard key={itm.id} data={itm} />;
                 })}
               </div>

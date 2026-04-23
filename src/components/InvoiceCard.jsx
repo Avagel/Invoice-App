@@ -29,8 +29,8 @@ const InvoiceCard = ({ data }) => {
       tabIndex={0}
       className="cursor-pointer hover:border hover:border-custom-accent shrink-0 w-full min-h-0 grid grid-cols-2 justify-between rounded-lg card gap-6 md:gap-0 md:flex md:items-center md:justify-between bg-custom-bg-card"
     >
-      <p className="bold md:mr-7">
-        <span className="text-custom-text-tertiary"># </span>
+      <p className="bold md:mr-7 line-clamp-1">
+        <span className="text-custom-text-tertiary "># </span>
         {id}
       </p>
       <p className="little text-custom-text-primary row-start-2 col-start-1 md:mr-12.75 ">

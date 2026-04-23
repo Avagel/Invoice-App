@@ -7,6 +7,8 @@ import Button from "./Button";
 const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
   const formRef = useRef(null);
   const [errors, setErrors] = useState({});
+  const [_items, setItems] = useState([{ id: 0 }]);
+  const itemsRef = useRef();
 
   const handleSubmit = (status) => {
     let items = [];
@@ -33,7 +35,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
     if (status !== "draft") {
       const newErrors = validate(items);
       if (Object.keys(newErrors).length > 0) {
-        console.log("error", errors);
+        
         setErrors(newErrors);
         return; // stop submission
       }
@@ -79,13 +81,13 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
       return updated;
     });
 
-    alert("added");
+    
     setIsCreateOpen(false);
   };
 
-  const validate = (_items) => {
+  const validate = () => {
     const f = formRef.current;
-    console.log(f.toInvoiceDate.value);
+    
     const newErrors = {};
 
     // Bill From
@@ -123,19 +125,16 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
     } else {
       _items.forEach((itm, index) => {
         if (!itm.name?.trim())
-          newErrors[`item_${index}_name`] = "Item name is required";
+          newErrors[`item_${itm.id}_name`] = "Item name is required";
         if (!itm.quantity || itm.quantity <= 0)
-          newErrors[`item_${index}_quantity`] = "Invalid quantity";
+          newErrors[`item_${itm.id}_quantity`] = "Invalid quantity";
         if (!itm.price || itm.price <= 0)
-          newErrors[`item_${index}_price`] = "Invalid price";
+          newErrors[`item_${itm.id}_price`] = "Invalid price";
       });
     }
 
     return newErrors;
   };
-
-  const [_items, setItems] = useState([{ id: 0 }]);
-  const itemsRef = useRef();
 
   const handleCreateItems = () => {
     setItems((prev) => {
@@ -173,7 +172,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               error={errors?.fromAddress}
             />
 
-            <div className="flex  justify-between gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               <Input
                 label={"City"}
                 name={"fromCity"}
@@ -188,14 +187,16 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
                 placeholder={"E3 3EZ"}
                 error={errors?.fromPostCode}
               />
+              <div className="col-span-2 md:col-span-1">
+                <Input
+                  label={"Country"}
+                  name={"fromCountry"}
+                  type="text"
+                  placeholder={"E3 3EZ"}
+                  error={errors?.fromCountry}
+                />
+              </div>
             </div>
-            <Input
-              label={"Country"}
-              name={"fromCountry"}
-              type="text"
-              placeholder={"E3 3EZ"}
-              error={errors?.fromCountry}
-            />
 
             <p className="text-custom-accent">Bill To</p>
             <Input
@@ -220,7 +221,7 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
               error={errors?.toAddress}
             />
 
-            <div className="flex  justify-between gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               <Input
                 label={"City"}
                 type="text"
@@ -235,14 +236,16 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
                 placeholder={"E3 3EZ"}
                 error={errors?.toPostCode}
               />
+              <div className="col-span-2 md:col-span-1">
+                <Input
+                  label={"Country"}
+                  type="text"
+                  name={"toCountry"}
+                  placeholder={"E3 3EZ"}
+                  error={errors?.toCountry}
+                />
+              </div>
             </div>
-            <Input
-              label={"Country"}
-              type="text"
-              name={"toCountry"}
-              placeholder={"E3 3EZ"}
-              error={errors?.toCountry}
-            />
 
             <Input
               label={"Invoice Date"}
@@ -274,12 +277,21 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
           <div ref={itemsRef} className="flex flex-col mt-5.5 gap-12.25 mb-12">
             {_items.map((itm, index) => {
               return (
-                <ListItem key={itm.id} setItems={setItems} defaultValue={itm} />
+                <ListItem
+                  key={itm.id}
+                  setItems={setItems}
+                  defaultValue={itm}
+                  errors={errors}
+                />
               );
             })}
           </div>
 
-          <p className="little list-item text-custom-error">{errors.items}</p>
+          {errors.items && (
+            <p className="little list-item text-custom-error my-2">
+              {errors?.items}
+            </p>
+          )}
 
           <Button
             type="edit"

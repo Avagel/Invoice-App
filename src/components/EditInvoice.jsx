@@ -4,17 +4,10 @@ import Input from "./Input";
 import ListItem from "./ListItem";
 import Button from "./Button";
 
-const EditInvoice = ({
-  setIsEditOpen,
-  defaultValues,
-  setInvoices,
-  updateLocal,
-}) => {
+const EditInvoice = ({ setIsEditOpen, defaultValues, setInvoices }) => {
   const [errors, setErrors] = useState({});
   const [baseData, setBaseData] = useState(defaultValues);
   const [_items, setItems] = useState(defaultValues.items);
-  console.log(_items);
-  console.log(defaultValues);
   const formRef = useRef(null);
   const itemsRef = useRef(null);
 
@@ -32,11 +25,11 @@ const EditInvoice = ({
 
   const handleAddItem = () => {
     setItems((prev) => {
-      return [...prev, {}];
+      return [...prev, { id: crypto.randomUUID() }];
     });
   };
 
-  const validate = (_items) => {
+  const validate = (items) => {
     const f = formRef.current;
     const newErrors = {};
 
@@ -70,16 +63,16 @@ const EditInvoice = ({
       newErrors.projectDescription = "Project description is required";
 
     // Items
-    if (_items.length === 0) {
+    if (items.length === 0) {
       newErrors.items = "Add at least one item";
     } else {
-      _items.forEach((itm, index) => {
+      items.forEach((itm, index) => {
         if (!itm.name?.trim())
-          newErrors[`item_${index}_name`] = "Item name is required";
+          newErrors[`item_${itm.id}_name`] = "Item name is required";
         if (!itm.quantity || itm.quantity <= 0)
-          newErrors[`item_${index}_quantity`] = "Invalid quantity";
+          newErrors[`item_${itm.id}_quantity`] = "Invalid quantity";
         if (!itm.price || itm.price <= 0)
-          newErrors[`item_${index}_price`] = "Invalid price";
+          newErrors[`item_${itm.id}_price`] = "Invalid price";
       });
     }
 
@@ -99,20 +92,18 @@ const EditInvoice = ({
       const price = formRef.current.elements["itmPrice"][index]
         ? formRef.current.elements["itmPrice"][index].value
         : formRef.current.elements["itmPrice"].value;
+
+      const id = _items[index].id || crypto.randomUUID();
+
       items.push({
-        id: crypto.randomUUID(),
+        id,
         name,
         quantity,
         price,
       });
     });
 
-    const newErrors = validate(items);
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return; // stop submission
-    }
-    setErrors({});
+    
 
     const date = formRef.current.invoiceDate.value;
     const paymentTerms = formRef.current.paymentTerms.value;
@@ -132,6 +123,13 @@ const EditInvoice = ({
       postCode: formRef.current.toPostCode.value,
       country: formRef.current.toCountry.value,
     };
+
+    const newErrors = validate(items);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // stop submission
+    }
+    setErrors({});
 
     const editedInvoice = {
       id: id,
@@ -153,13 +151,13 @@ const EditInvoice = ({
       return updated;
     });
 
-    alert("edited");
+    
     setIsEditOpen(false);
   };
 
   return (
     <div className="absolute h-full rounded-r-xl  w-inherit inset-0  bg-black/50  overflow-auto">
-      <div className="max-w-154 bg-custom-bg-white  rounded-r-xl">
+      <div className="max-w-154 bg-custom-bg-card dark:bg-custom-bg-white  rounded-r-xl">
         <div className="p-6">
           <button
             className="flex items-center gap-6 my-2 mb-8"
@@ -192,7 +190,7 @@ const EditInvoice = ({
               error={errors?.fromAddress}
             />
 
-            <div className="flex  justify-between gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               <Input
                 label={"City"}
                 name={"fromCity"}
@@ -209,15 +207,16 @@ const EditInvoice = ({
                 defaultValue={sender.postCode}
                 error={errors?.fromPostCode}
               />
+              <div className="col-span-2 md:col-span-1">
+                <Input
+                  label={"Country"}
+                  name={"fromCountry"}
+                  type="text"
+                  placeholder={"E3 3EZ"}
+                  error={errors?.fromCountry}
+                />
+              </div>
             </div>
-            <Input
-              label={"Country"}
-              name={"fromCountry"}
-              defaultValue={sender.country}
-              type="text"
-              placeholder={"E3 3EZ"}
-              error={errors?.fromCountry}
-            />
 
             <p className="text-custom-accent">Bill To</p>
             <Input
@@ -245,7 +244,7 @@ const EditInvoice = ({
               error={errors?.toAddress}
             />
 
-            <div className="flex  justify-between gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               <Input
                 label={"City"}
                 type="text"
@@ -262,15 +261,16 @@ const EditInvoice = ({
                 defaultValue={receiver.postCode}
                 error={errors?.toPostCode}
               />
+              <div className="col-span-2 md:col-span-1">
+                <Input
+                  label={"Country"}
+                  type="text"
+                  name={"toCountry"}
+                  placeholder={"E3 3EZ"}
+                  error={errors?.toCountry}
+                />
+              </div>
             </div>
-            <Input
-              label={"Country"}
-              type="text"
-              placeholder={"E3 3EZ"}
-              name={"toCountry"}
-              defaultValue={receiver.country}
-              error={errors?.toCountry}
-            />
 
             <Input
               label={"Invoice Date"}
@@ -310,10 +310,16 @@ const EditInvoice = ({
                     key={itm.id}
                     setItems={setItems}
                     defaultValue={itm}
+                    errors={errors}
                   />
                 );
               })}
             </div>
+            {errors.items && (
+              <p className="little list-item text-custom-error my-2">
+                {errors?.items}
+              </p>
+            )}
 
             <Button
               type="edit"
@@ -324,7 +330,7 @@ const EditInvoice = ({
           </form>
         </div>
 
-        <footer className="bg-custom-bg-card p-6 flex gap-2 mt-14 shadow-[0px_0px_10px_rgba(72,84,159,0.1)] items-center justify-center md:justify-end sticky bottom-0">
+        <footer className="bg-custom-bg-card p-6 flex gap-2 mt-14 shadow-[0px_0px_10px_rgba(72,84,159,0.1)] items-center justify-center md:justify-end sticky bottom-0 md:bg-custom-bg-white">
           <Button
             type="edit"
             text="Cancel"

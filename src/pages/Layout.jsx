@@ -8,13 +8,7 @@ const Layout = () => {
     <div className="flex flex-col h-screen transition duration-500 bg-custom-bg-white items-center lg:flex-row lg:items-start relative ">
       <NavBar />
 
-      <div className="w-full flex-1 relative flex justify-center overflow-auto">
-        {/* {isCreateOpen && (
-          <CreateInvoice
-            setIsCreateOpen={setIsCreateOpen}
-            setInvoices={setInvoices}
-          />
-        )} */}
+      <div className="w-full lg:h-full flex-1 relative flex justify-center overflow-auto">
         <Outlet />
       </div>
     </div>

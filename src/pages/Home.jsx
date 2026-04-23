@@ -22,7 +22,7 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
       [item]: !prev[item],
     }));
   };
-  invoices = invoices.filter((invoice) => {
+  invoices = invoices?.filter((invoice) => {
     // If all filters are off, show everything
     if (Object.values(filter).every((value) => value === false)) return true;
 
@@ -31,7 +31,7 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
   });
 
   return (
-    <div className="  w-full p-6 lg:max-h-screen flex flex-col  ">
+    <div className="  w-full p-6 pt-0 lg:max-h-screen flex flex-col  ">
       <div className="flex-1 min-h-0  overflow-auto   w-full overflow-y-auto  items-center flex flex-col">
         <header className=" relative   flex items-center gap-4 h-11 mt-7 mb-13.75 lg:mt-19.25 w-full md:max-w-200">
           <section className="h-full mr-auto  ">
@@ -39,8 +39,8 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
               Invoices
             </h2>
             <p className="little text-custom-text-primary mt-1.5">
-              {invoices.length && invoices.length > 0
-                ? invoices.length + " invoices"
+              {invoices?.length && invoices?.length > 0
+                ? invoices?.length + " invoices"
                 : "No invoices"}
             </p>
           </section>
@@ -103,12 +103,12 @@ const Home = ({ invoices, setInvoices, updateLocal }) => {
             })}
           </div>
         ) : (
-          <section className="text-center flex flex-col items-center justify-center mt-25.5">
+          <section className="  text-center flex flex-col items-center justify-center mt-25.5 lg:mt-0">
             <figure>
               <img src={noInvoice} alt="" />
             </figure>
             <h2 className="mt-10.5 mb-5.75 font-bold">There is nothing here</h2>
-            <p className="little leading-3.75">
+            <p className="little leading-3.75 text-custom-secondary">
               Create an invoice by clicking the <br /> New button and get
               started
             </p>

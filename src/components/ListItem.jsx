@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import Input from "./Input";
 import { Trash } from "lucide-react";
 
-const ListItem = ({ setItems, defaultValue = {} }) => {
+const ListItem = ({ setItems, defaultValue = {}, errors }) => {
   const { id, name, quantity, price } = defaultValue;
   const [quantityValue, setQuantityValue] = useState(quantity || 0);
   const [priceValue, setPriceValue] = useState(price || 0);
+
   const handleDelete = () => {
     setItems((prev) => {
-      console.log(prev, id);
+      
       return prev.filter((itm) => itm.id !== id);
     });
   };
@@ -17,20 +18,22 @@ const ListItem = ({ setItems, defaultValue = {} }) => {
   };
 
   return (
-    <div className="listItem">
+    <div className="listItem flex flex-col  gap-6">
       <Input
         label={"Item Name"}
         name={"itmName"}
         placeholder={"Banner Design"}
         defaultValue={name}
+        error={errors[`item_${id}_name`]}
       />
-      <div className="flex gap-4 justify-center items-end mt-6">
+      <div className="flex gap-4 justify-center items-end ">
         <Input
           type="number"
           name={"itmQuantity"}
           label={"Qty"}
-          defaultValue={quantity}
+          // defaultValue={quantity}
           value={quantityValue}
+          error={errors[`item_${id}_quantity`]}
           onChange={(e) => {
             setQuantityValue(e.target.value);
           }}
@@ -39,8 +42,9 @@ const ListItem = ({ setItems, defaultValue = {} }) => {
           label={"Price"}
           type="number"
           name={"itmPrice"}
-          defaultValue={price}
+          // defaultValue={price}
           value={priceValue}
+          error={errors[`item_${id}_price`]}
           onChange={(e) => {
             setPriceValue(e.target.value);
           }}

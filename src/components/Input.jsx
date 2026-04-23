@@ -4,7 +4,7 @@ import React, { useState } from "react";
 const Input = ({
   type = "input",
   label,
-  placeholder,
+
   name,
   options,
   defaultValue,
@@ -17,7 +17,6 @@ const Input = ({
     return (
       <NumberInput
         label={label}
-        placeholder={placeholder}
         name={name}
         defaultValue={defaultValue}
         error={error}
@@ -29,7 +28,6 @@ const Input = ({
     return (
       <DateInput
         label={label}
-        placeholder={placeholder}
         name={name}
         defaultValue={defaultValue}
         error={error}
@@ -39,7 +37,6 @@ const Input = ({
     return (
       <SelectInput
         label={label}
-        placeholder={placeholder}
         name={name}
         options={options}
         defaultValue={defaultValue}
@@ -49,7 +46,6 @@ const Input = ({
   return (
     <TextInput
       label={label}
-      placeholder={placeholder}
       name={name}
       defaultValue={defaultValue}
       focus={focus}
@@ -60,10 +56,9 @@ const Input = ({
 
 const SelectInput = ({
   label,
-  placeholder = "",
+
   name,
   options = [],
-  defaultValue,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(options[0]);
@@ -109,7 +104,7 @@ const SelectInput = ({
 
 const DateInput = ({
   label,
-  placeholder = "",
+
   name,
   defaultValue,
   error = "",
@@ -127,8 +122,7 @@ const DateInput = ({
         id={name}
         name={name}
         type="date"
-        placeholder={placeholder}
-        className={`bg-custom-tetiary font-bold text-[15px] border text-custom-text-dark  px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border dark:border-0"}`}
+        className={`bg-custom-tetiary font-bold text-[15px] border text-custom-text-dark  px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border "}`}
       />
     </div>
   );
@@ -136,7 +130,7 @@ const DateInput = ({
 
 const TextInput = ({
   label,
-  placeholder = "",
+
   name,
   defaultValue = "",
   focus = false,
@@ -156,8 +150,7 @@ const TextInput = ({
         name={name}
         type="text"
         defaultValue={defaultValue}
-        placeholder={placeholder}
-        className={`bg-custom-tetiary placeholder-custom-text-primary font-bold text-[15px] border  px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border dark:border-0"}`}
+        className={`bg-custom-tetiary  font-bold text-[15px] border  px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border :"}`}
       />
     </div>
   );
@@ -165,7 +158,7 @@ const TextInput = ({
 
 const NumberInput = ({
   label,
-  placeholder = "",
+
   name,
   defaultValue,
   error = "",
@@ -185,8 +178,7 @@ const NumberInput = ({
         onChange={onChange}
         defaultValue={defaultValue}
         type="number"
-        placeholder={placeholder}
-        className={`bg-custom-tetiary font-bold text-[15px] border px-5 py-4 w-full rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border dark:border-0"}`}
+        className={`bg-custom-tetiary font-bold text-[15px] border px-5 w-full py-4 rounded-sm mt-2 ${error ? "border-custom-error" : "border-custom-border "}`}
       />
     </div>
   );
