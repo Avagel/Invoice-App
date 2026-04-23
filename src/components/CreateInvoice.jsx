@@ -72,6 +72,8 @@ const CreateInvoice = ({ setIsCreateOpen, setInvoices, updateLocal }) => {
     formRef.current.preventDefault();
   };
 
+  
+
   const [_items, setItems] = useState([{ id: 0 }]);
   const itemsRef = useRef();
 

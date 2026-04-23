@@ -41,10 +41,12 @@
   --color-custom-text-tertiary: #888eb0;
 }
 
+* {
+  transition: 0.3s all;
+}
 body {
   font-family: "League Spartan", sans-serif;
   color: var(--color-custom-text-dark);
-  transition: 0.5s all;
 }
 h1 {
   font-size: 24px;
