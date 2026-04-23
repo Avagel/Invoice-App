@@ -86,9 +86,18 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
     sender,
     receiver,
     items,
-    total,
+    // total,
   } = data || {};
   console.log(items);
+
+  let total = 0;
+  {
+    items?.forEach((itm) => {
+      console.log("itms", itm);
+      total = total + itm.quantity * itm.price;
+    });
+  }
+  console.log(total);
 
   return (
     <div className="w-full flex flex-col lg:max-h-screen items-center ">
@@ -206,7 +215,7 @@ const InvoiceDetail = ({ invoices, setInvoices, updateLocal }) => {
 
               <div className="p-6 bg-custom-bg-nav flex items-center justify-between tb">
                 <p className="little text-white">Amount Due</p>
-                <h1 className="text-white">£ {total}</h1>
+                <h1 className="text-white">£{total}</h1>
               </div>
             </div>
           </div>

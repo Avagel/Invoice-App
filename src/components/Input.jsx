@@ -10,6 +10,8 @@ const Input = ({
   defaultValue,
   focus,
   error,
+  value,
+  onChange,
 }) => {
   if (type == "number")
     return (
@@ -19,6 +21,8 @@ const Input = ({
         name={name}
         defaultValue={defaultValue}
         error={error}
+        value={value || defaultValue}
+        onChange={onChange}
       />
     );
   if (type == "date")
@@ -165,6 +169,8 @@ const NumberInput = ({
   name,
   defaultValue,
   error = "",
+  onChange,
+  value,
 }) => {
   return (
     <div>
@@ -172,8 +178,11 @@ const NumberInput = ({
         <p className="text-custom-text-tertiary little">{label}</p>
       </label>
       <input
+        min={1}
         id={name}
         name={name}
+        value={value}
+        onChange={onChange}
         defaultValue={defaultValue}
         type="number"
         placeholder={placeholder}
